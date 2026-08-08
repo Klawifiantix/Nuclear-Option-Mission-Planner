@@ -6,9 +6,12 @@ The program was originally developed to read the mission JSON files of Nuclear O
 
 # Controls & Usage
 
-### Selection
+### Camera movement
 
 * Hold down the **middle mouse button** and move the mouse to pan the camera, and use the **scroll wheel** to zoom.
+
+### Selection
+
 * Hold down the **left mouse button** to draw a selection box. Selected units are grouped together, displaying their count, total value, and weapon ranges.
 * Click on empty space to clear the selection.
 * Click on a single unit or building to select only that object, and click on another unit to add it to the selection.
