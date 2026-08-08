@@ -1,6 +1,7 @@
 # Overview
 
 The program was originally developed to read the mission JSON files of Nuclear Option, which is why the name "Scanner" can still be found in some places, though its feature set has since grown. You can load any Nuclear Option mission using its JSON file, which displays the corresponding map along with all buildings and units (with Boscali colored blue and Primeva colored red).
+In addition, sorties can be planned using placed waypoints. Sorties can also be assigned to specific airframes. A created plan can be saved and reloaded later, allowing plans to be shared with others.
 
 ---
 
