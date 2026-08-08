@@ -31,8 +31,7 @@ The program was originally developed to read the mission JSON files of Nuclear O
 
 # Display Options
 
-* **Heartland:** Three display versions are available: "true" color, black/white, and black/green. You can cycle through the variants using the **"m" key**.
-* **Ignus:** Currently only the "true" color version is available.
+* **Heartland:** Two display versions are available: "true" color & black/white. You can cycle through the variants using the **"m" key**.
 
 ---
 
