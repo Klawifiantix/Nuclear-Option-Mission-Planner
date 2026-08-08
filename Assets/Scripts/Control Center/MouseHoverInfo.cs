@@ -35,12 +35,12 @@ public class MouseHoverInfo : MonoBehaviour
             float Cost = OI_Temp.ObjectStats.Cost;
             Sprite Avatar = OI_Temp.ObjectStats.SPR_Avatar;
 
-            UI_ObjectInfos.ShowInfos(Name, Cost, Avatar);
+            UI_ObjectInfos.ShowInfos(Name, Cost, Avatar, OI_Temp.ObjectStats.List_Weapons);
         }
         else
         {
             Sprite Avatar = null;
-            UI_ObjectInfos.ShowInfos("", 0, Avatar);
+            UI_ObjectInfos.ShowInfos("", 0, Avatar, null);
         }
     }
 }

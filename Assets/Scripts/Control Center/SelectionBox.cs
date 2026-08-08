@@ -86,7 +86,7 @@ public class SelectionBox : MonoBehaviour
 
                     if (selectionRect.Contains(screenPos))
                     {
-                        Debug.Log(obj.transform.name);
+                        //Debug.Log(obj.transform.name);
                         UnitStats US_Object = obj.GetComponent<Object_Info>().ObjectStats;
                         Object_Info OI = obj.GetComponent<Object_Info>();
                         OI.Selected = true;
