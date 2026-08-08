@@ -33,6 +33,6 @@ The program was originally developed to read the mission JSON files of Nuclear O
 
 ---
 
-# Saving & Loading
+# Saving
 
 Created sorties can be saved using the **Save** button. These are stored as JSON files, making them easily readable and simple to share with others.
