@@ -1,0 +1,13 @@
+Einheiten
+1) Die Einheiten sollten so abgespeichert werden, dass sie wieder eigenladen werden können. Evtl damit erstmal anfangen.
+
+Sortie
+1) Suche in den Childs von +---Sortie_Manager---+ nach Sorties (Sortie_)
+2) Lege für jede gefunde Sortie eine Sortie in der JSON File an. (Distance, TravelSpeed, TravelTime)
+3) Suche in der Sortie nach Wegpunkten (List_Waypoints)
+4) beim abspeichern der position des wegpunktes, müssen auch noch die Werte Distance und TravelTime (Waypoint) abgespeichert werden.
+5) Der Splinecontainer muss ausgelesen und dessen Knoten abgespeichert werden.
+
+AnimatedObjects
+1) Für jede Sortie wird auch ein SplineAnimatedObject gespeichert. Für Sortie0 (List_Sorties) wird SplinteAnimatedObject0 (List_AnimatedObjects) abgespeichert.
+2) Die Zugeordneten Sprites, können durch die Liste (List_MapIcons_Indicies) abgerufen werden

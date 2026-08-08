@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9937a5e42c21345a2f8466ab343340, type: 3}
+  m_Name: Alkyon AB-4
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  Building: 0
+  Vehicle: 0
+  Ship: 0
+  Aircraft: 1
+  SPR_Avatar: {fileID: 21300000, guid: b6738c962a8594f44b80da6af641dd71, type: 3}
+  SPR_MapIcon: {fileID: 21300000, guid: 595f9382cf7d6064b8e2eff63f7f967f, type: 3}
+  STR_Name_Development: FastBomber1
+  STR_Name_InGame: Alkyon AB-4
+  Cost: 390
+  MaxSpeed: 1725
+  StallSpeed: 230
+  ServiceCeiling: 17858
+  Maneuverability: 8
+  RCS_Clean: 0.0025
+  RCS_HeavyMunitions: 0.1025
+  Magnification: 1
+  MaxOpticalRange: 10
+  MaxRadarRange: 50
+  AmountFlares: 90
+  JammingIntensity: 8
+  LaserDesignators: 0

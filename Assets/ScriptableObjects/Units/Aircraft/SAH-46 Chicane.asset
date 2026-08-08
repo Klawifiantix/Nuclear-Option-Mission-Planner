@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9937a5e42c21345a2f8466ab343340, type: 3}
+  m_Name: SAH-46 Chicane
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  Building: 0
+  Vehicle: 0
+  Ship: 0
+  Aircraft: 1
+  SPR_Avatar: {fileID: 21300000, guid: 51c7ed7277f329e40924f098b09fbe75, type: 3}
+  SPR_MapIcon: {fileID: 21300000, guid: dd29f8f95b29030409795d23d3eafe9b, type: 3}
+  STR_Name_Development: AttackHelo1
+  STR_Name_InGame: SAH-46 Chicane
+  Cost: 31.5
+  MaxSpeed: 360
+  StallSpeed: 0
+  ServiceCeiling: 5200
+  Maneuverability: 3.5
+  RCS_Clean: 0.02
+  RCS_HeavyMunitions: 0.136
+  Magnification: 1.5
+  MaxOpticalRange: 10
+  MaxRadarRange: 0
+  AmountFlares: 72
+  JammingIntensity: 0
+  LaserDesignators: 4

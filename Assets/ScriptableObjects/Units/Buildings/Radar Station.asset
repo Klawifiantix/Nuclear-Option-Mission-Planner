@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9937a5e42c21345a2f8466ab343340, type: 3}
+  m_Name: Radar Station
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  Building: 1
+  Vehicle: 0
+  Ship: 0
+  Aircraft: 0
+  SPR_Avatar: {fileID: 21300000, guid: 34992f5e7513d254d9f4c24c3a6056eb, type: 3}
+  SPR_MapIcon: {fileID: 21300000, guid: 26263662720f2bf4c83e9d06be534eb3, type: 3}
+  STR_Name_Development: radarStation1
+  STR_Name_InGame: Radar Station
+  Cost: 25
+  MaxSpeed: 0
+  StallSpeed: 0
+  ServiceCeiling: 0
+  Maneuverability: 0
+  RCS_Clean: 0
+  RCS_HeavyMunitions: 0
+  Magnification: 0
+  MaxOpticalRange: 0
+  MaxRadarRange: 0
+  AmountFlares: 0
+  JammingIntensity: 0
+  LaserDesignators: 0

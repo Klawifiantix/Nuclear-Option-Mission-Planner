@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9937a5e42c21345a2f8466ab343340, type: 3}
+  m_Name: Dynamo Class Destroyer
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  Building: 0
+  Vehicle: 0
+  Ship: 1
+  Aircraft: 0
+  SPR_Avatar: {fileID: 21300000, guid: 48919ac72184a1349b6d35d8fff05c9d, type: 3}
+  SPR_MapIcon: {fileID: 21300000, guid: 560b55d1f0ad8924ca21af1b99c2e19a, type: 3}
+  STR_Name_Development: Destroyer1
+  STR_Name_InGame: Dynamo Class Destroyer
+  Cost: 1350
+  MaxSpeed: 59
+  StallSpeed: 0
+  ServiceCeiling: 0
+  Maneuverability: 0
+  RCS_Clean: 0
+  RCS_HeavyMunitions: 0
+  Magnification: 0
+  MaxOpticalRange: 0
+  MaxRadarRange: 0
+  AmountFlares: 0
+  JammingIntensity: 0
+  LaserDesignators: 0
+  List_Weapons:
+  - {fileID: 11400000, guid: 51e397f7b692d974eb227e800a7d3525, type: 2}
+  - {fileID: 11400000, guid: cb21789c0ac1801458dfb10f10c734e4, type: 2}
+  - {fileID: 11400000, guid: fe26d918a489dc844ab0d8ae19da524c, type: 2}
+  - {fileID: 11400000, guid: af22ddabf2f2f4b48b31a286ac56b020, type: 2}
+  - {fileID: 11400000, guid: 4e114f5b11287fd4cbf002f66b21933f, type: 2}
