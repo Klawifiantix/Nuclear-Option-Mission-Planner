@@ -524,4 +524,9 @@ public class InputOutput : MonoBehaviour
 
         return null;
     }
+
+    public void BTN_OpticalDetection()
+    {
+        SceneManager.LoadScene("OpticalDetection");
+    }
 }
