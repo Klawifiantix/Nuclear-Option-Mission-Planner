@@ -185,7 +185,15 @@ public class OpticalLogic : MonoBehaviour
 
         measure = "km";
         DetectionRange_0_Temp = DetectionRange_0;
+        if(DetectionRange_0_Temp > visualRange_0)
+        {
+            DetectionRange_0_Temp = visualRange_0;
+        }
         DetectionRange_1_Temp = DetectionRange_1;
+        if (DetectionRange_1_Temp > visualRange_1)
+        {
+            DetectionRange_1_Temp = visualRange_1;
+        }
         if (Imperial)
         {
             measure = "nm";
@@ -195,7 +203,7 @@ public class OpticalLogic : MonoBehaviour
 
         //OBJ_WinnerBackground.SetActive(true);
 
-        if (DetectionRange_0 > DetectionRange_1)
+        if (DetectionRange_0_Temp > DetectionRange_1_Temp)
         {
             //OBJ_WinnerBackground.GetComponent<RectTransform>().position = new Vector3(360, 636, 0);
             TXT_Winner.text = $"The {Name_0} can visually regognize the {Name_1} from a distance of {DetectionRange_0_Temp:F1}{measure}";
