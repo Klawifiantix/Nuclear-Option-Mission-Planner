@@ -1,8 +1,15 @@
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/73891f06-af89-43bf-801e-88963cdf4335" />
+
+
 # Overview
 
 The program was originally developed to read the mission JSON files of Nuclear Option, which is why the name "Scanner" can still be found in some places, though its feature set has since grown. You can load any Nuclear Option mission using its JSON file, which displays the corresponding map along with all buildings and units (with Boscali colored blue and Primeva colored red).
+In addition, sorties can be planned using placed waypoints. Sorties can also be assigned to specific airframes. A created plan can be saved and reloaded later, allowing plans to be shared with others.
 
 ---
+
+<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/ce79fbef-abf2-4e9d-a69e-8e638c1ceef9" />
+
 
 # Controls & Usage
 
@@ -29,13 +36,23 @@ The program was originally developed to read the mission JSON files of Nuclear O
 
 ---
 
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/839b0b27-0afe-46a1-8433-091a70d32468" />
+
 # Display Options
 
-* **Heartland:** Three display versions are available: "true" color, black/white, and black/green. You can cycle through the variants using the **"m" key**.
-* **Ignus:** Currently only the "true" color version is available.
+* Two display versions are available: "true" color & black/white. You can cycle through the variants using the **"m" key**.
 
 ---
+
+<img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/f80b6a5e-7313-4c46-b7b7-87c450adecda" />
+
 
 # Saving
 
 Created sorties can be saved using the **Save** button. These are stored as JSON files, making them easily readable and simple to share with others.
+
+<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/ab46301d-14ed-44d5-a42c-c3ac97d1d01c" />
+
+<img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/3db860bf-3d5a-4f02-aeb8-2bef5ac78476" />
+
+
