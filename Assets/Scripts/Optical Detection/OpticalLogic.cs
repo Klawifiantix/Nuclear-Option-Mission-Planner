@@ -261,9 +261,20 @@ public class OpticalLogic : MonoBehaviour
         }
 
         //Winner/Looser
+        DetectionRange_0 = visibleRange_1 * visualMagnification_0;
+        DetectionRange_1 = visibleRange_0 * visualMagnification_1;
+
         measure = "km";
         DetectionRange_0_Temp = DetectionRange_0;
+        if (DetectionRange_0_Temp > visualRange_0)
+        {
+            DetectionRange_0_Temp = visualRange_0;
+        }
         DetectionRange_1_Temp = DetectionRange_1;
+        if (DetectionRange_1_Temp > visualRange_1)
+        {
+            DetectionRange_1_Temp = visualRange_1;
+        }
         if (Imperial)
         {
             measure = "nm";
