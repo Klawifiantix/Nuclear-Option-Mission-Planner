@@ -75,7 +75,7 @@ public class SortieManager : MonoBehaviour
 
     void PlaceWaypoint()
     {
-        if(Inputs.LShift_Held && Inputs.Select_Down)
+        if(Inputs.Mode_Waypoint_Held && Inputs.Select_Down)
         {
             if (List_Sorties.Count < ActualSortie + 1)
             {
@@ -108,7 +108,7 @@ public class SortieManager : MonoBehaviour
 
     void DeleteLastWaypoint()
     {
-        if (Inputs.LShift_Held && Inputs.Deselect_Down)
+        if (Inputs.Mode_Waypoint_Held && Inputs.Deselect_Down)
         {
             if (List_Sorties[ActualSortie] == null)
             {
@@ -358,7 +358,7 @@ public class SortieManager : MonoBehaviour
                 }
             }
 
-            if (AmountSortiesWithWaypoint < 9)
+            if (AmountSortiesWithWaypoint < 10)
             {
                 List_SortieButtons[AmountSortiesWithWaypoint].SetActive(true);
 

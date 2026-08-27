@@ -12,11 +12,17 @@ public class Inputs : MonoBehaviour
     [SerializeField] private InputActionReference ChangeStyle;
 
     [Header("Waypoints")]
-    [SerializeField] private InputActionReference LShift;
+    [SerializeField] private InputActionReference Mode_Waypoint;
 
     [Header("Clicks")]
     [SerializeField] private InputActionReference Select;
     [SerializeField] private InputActionReference Deselect;
+
+    [Header("Arrows")]
+    [SerializeField] private InputActionReference Mode_Arrow;
+
+    [Header("Delete")]
+    [SerializeField] private InputActionReference Delete;
 
     //CameraMovement
     public bool Pan_Held { get; private set; }
@@ -33,9 +39,9 @@ public class Inputs : MonoBehaviour
     public bool ChangeStyle_Up { get; private set; }
 
     //Waypoints
-    public bool LShift_Held { get; private set; }
-    public bool LShift_Down { get; private set; }
-    public bool LShift_Up { get; private set; }
+    public bool Mode_Waypoint_Held { get; private set; }
+    public bool Mode_Waypoint_Down { get; private set; }
+    public bool Mode_Waypoint_Up { get; private set; }
 
     //Clicks
     public bool Select_Held { get; private set; }
@@ -45,6 +51,16 @@ public class Inputs : MonoBehaviour
     public bool Deselect_Held { get; private set; }
     public bool Deselect_Down { get; private set; }
     public bool Deselect_Up { get; private set; }
+
+    //Arrows
+    public bool Mode_Arrow_Held { get; private set; }
+    public bool Mode_Arrow_Down { get; private set; }
+    public bool Mode_Arrow_Up { get; private set; }
+
+    //Arrows
+    public bool Delete_Held { get; private set; }
+    public bool Delete_Down { get; private set; }
+    public bool Delete_Up { get; private set; }
 
     private void Awake()
     {
@@ -85,9 +101,9 @@ public class Inputs : MonoBehaviour
         }
 
         //Waypoints
-        if(LShift != null)
+        if(Mode_Waypoint != null)
         {
-            LShift.action.Enable();
+            Mode_Waypoint.action.Enable();
         }
 
         //Clicks
@@ -99,6 +115,18 @@ public class Inputs : MonoBehaviour
         if(Deselect != null)
         {
             Deselect.action.Enable();
+        }
+
+        //Arrows
+        if(Mode_Arrow !=null)
+        {
+            Mode_Arrow.action.Enable();
+        }
+
+        //Delete
+        if (Delete != null)
+        {
+            Delete.action.Enable();
         }
     }
 
@@ -125,9 +153,9 @@ public class Inputs : MonoBehaviour
         }
 
         //Waypoints
-        if (LShift != null)
+        if (Mode_Waypoint != null)
         {
-            LShift.action.Disable();
+            Mode_Waypoint.action.Disable();
         }
 
         //Clicks
@@ -139,6 +167,18 @@ public class Inputs : MonoBehaviour
         if (Deselect != null)
         {
             Deselect.action.Disable();
+        }
+
+        //Arrows
+        if (Mode_Arrow != null)
+        {
+            Mode_Arrow.action.Disable();
+        }
+
+        //Delete
+        if (Delete != null)
+        {
+            Delete.action.Disable();
         }
     }
 
@@ -173,15 +213,15 @@ public class Inputs : MonoBehaviour
         }
 
         //Waypoint
-        if (LShift != null)
+        if (Mode_Waypoint != null)
         {
-            LShift_Held = LShift.action.IsPressed();
-            LShift_Down = LShift.action.WasPressedThisFrame();
-            LShift_Up = LShift.action.WasReleasedThisFrame();
+            Mode_Waypoint_Held = Mode_Waypoint.action.IsPressed();
+            Mode_Waypoint_Down = Mode_Waypoint.action.WasPressedThisFrame();
+            Mode_Waypoint_Up = Mode_Waypoint.action.WasReleasedThisFrame();
         }
         else
         {
-            LShift_Held = LShift_Down = LShift_Up = false;
+            Mode_Waypoint_Held = Mode_Waypoint_Down = Mode_Waypoint_Up = false;
         }
 
         //Clicks
@@ -205,6 +245,30 @@ public class Inputs : MonoBehaviour
         else
         {
             Deselect_Held = Deselect_Down = Deselect_Up = false;
+        }
+
+        //Arrows
+        if (Mode_Arrow != null)
+        {
+            Mode_Arrow_Held = Mode_Arrow.action.IsPressed();
+            Mode_Arrow_Down = Mode_Arrow.action.WasPressedThisFrame();
+            Mode_Arrow_Up = Mode_Arrow.action.WasReleasedThisFrame();
+        }
+        else
+        {
+            Mode_Arrow_Held = Mode_Arrow_Down = Mode_Arrow_Up = false;
+        }
+
+        //Delete
+        if (Delete != null)
+        {
+            Delete_Held = Delete.action.IsPressed();
+            Delete_Down = Delete.action.WasPressedThisFrame();
+            Delete_Up = Delete.action.WasReleasedThisFrame();
+        }
+        else
+        {
+            Delete_Held = Delete_Down = Delete_Up = false;
         }
     }
 }

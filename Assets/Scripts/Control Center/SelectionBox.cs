@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class SelectionBox : MonoBehaviour
 {
@@ -26,6 +27,12 @@ public class SelectionBox : MonoBehaviour
 
         if (Mouse.current == null || Camera.main == null)
         {
+            return;
+        }
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Es wurde auf ein UI-Element geklickt.");
             return;
         }
 

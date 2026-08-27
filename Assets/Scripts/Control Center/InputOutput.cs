@@ -77,6 +77,16 @@ public class SortieData
 }
 
 [Serializable]
+public class ArrowData
+{
+    public float scaleFaktor;
+    public float colorR;
+    public float colorG;
+    public float colorB;
+    public WaypointData[] points;
+}
+
+[Serializable]
 public class CameraData
 {
     public Vector3 position;
@@ -94,6 +104,7 @@ public class SaveDataContainer
     public UnitData[] ships;
     public UnitData[] aircraft;
     public SortieData[] sorties;
+    public ArrowData[] arrows;
     public CameraData cameraData;
 }
 #endregion
@@ -110,8 +121,9 @@ public class InputOutput : MonoBehaviour
     private SortieManager SortieManager;
     private SortieWing SortieWing;
     private Map_Setup Map_Setup;
+    private ArrowsManager ArrowsManager;
 
-    private bool isMissionLoaded = false;
+    [SerializeField] bool isMissionLoaded = false;
 
     bool LoadedTempData;
     int FramesToWait = 0;
@@ -139,6 +151,12 @@ public class InputOutput : MonoBehaviour
             SortieManager = sortieContainer.GetComponent<SortieManager>();
             SortieWing = sortieContainer.GetComponent<SortieWing>();
         }
+
+        GameObject arrowsContainer = GameObject.Find("+---Notes---+");
+        if (arrowsContainer != null)
+        {
+            ArrowsManager = arrowsContainer.GetComponent<ArrowsManager>();
+        }
     }
 
     private void Start()
@@ -157,7 +175,7 @@ public class InputOutput : MonoBehaviour
             else
             {
                 ActualFrame = FramesToWait;
-                Temp_LoadData();
+                LoadData(true);
                 LoadedTempData = true;
             }
         }
@@ -167,7 +185,7 @@ public class InputOutput : MonoBehaviour
     {
         if (!isMissionLoaded)
         {
-            LoadData();
+            LoadData(false);
         }
         else
         {
@@ -181,9 +199,18 @@ public class InputOutput : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void SaveData()
+    public void SaveData(bool Temporary)
     {
-        string filePath = SaveFileDialog();
+        string filePath = "";
+
+        if (Temporary)
+        {
+            filePath = Path.Combine(Application.persistentDataPath, "temp_mission_save.json");
+        }
+        else
+        {
+            filePath = SaveFileDialog();
+        }
 
         if (string.IsNullOrEmpty(filePath))
         {
@@ -211,50 +238,9 @@ public class InputOutput : MonoBehaviour
             }
 
             dataContainer.sorties = ExtractSortieData();
+            dataContainer.arrows = ExtractArrowData();
 
-            string jsonContent = JsonUtility.ToJson(dataContainer, true);
-            File.WriteAllText(filePath, jsonContent);
-
-            Debug.Log($"Daten erfolgreich in {filePath} gespeichert.");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Fehler beim Speichern der Datei: {ex.Message}");
-        }
-    }
-
-    public void Temp_SaveData()
-    {
-        string filePath = Path.Combine(Application.persistentDataPath, "temp_mission_save.json");
-
-        if (string.IsNullOrEmpty(filePath))
-        {
-            Debug.LogWarning("SaveData abgebrochen: Kein Speicherpfad ausgewählt.");
-            return;
-        }
-
-        try
-        {
-            SaveDataContainer dataContainer = new SaveDataContainer();
-
-            dataContainer.MapKey = new MapKeyData();
-            if (Map_Setup != null)
-            {
-                int currentMapIndex = Map_Setup.GetCurrentMapIndex();
-                dataContainer.MapKey.Path = GetPathFromMapIndex(currentMapIndex);
-            }
-
-            if (PlacedObjects != null)
-            {
-                dataContainer.buildings = ExtractUnitData(PlacedObjects.List_Buildings);
-                dataContainer.vehicles = ExtractUnitData(PlacedObjects.List_Vehicle);
-                dataContainer.ships = ExtractUnitData(PlacedObjects.List_Ships);
-                dataContainer.aircraft = ExtractUnitData(PlacedObjects.List_Aircraft);
-            }
-
-            dataContainer.sorties = ExtractSortieData();
-
-            if (MainCamera != null)
+            if (MainCamera != null && Temporary)
             {
                 dataContainer.cameraData = new CameraData
                 {
@@ -388,9 +374,66 @@ public class InputOutput : MonoBehaviour
         return sortieDataList.ToArray();
     }
 
-    public void LoadData()
+    private ArrowData[] ExtractArrowData()
     {
-        string filePath = OpenFileDialog();
+        if (ArrowsManager == null)
+        {
+            return new ArrowData[0];
+        }
+
+        // List_ActiveArrows per Reflection auslesen, da private
+        System.Reflection.FieldInfo arrowsField = typeof(ArrowsManager).GetField("List_ActiveArrows", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        List<GameObject> activeArrows = arrowsField != null ? arrowsField.GetValue(ArrowsManager) as List<GameObject> : null;
+
+        if (activeArrows == null || activeArrows.Count == 0)
+        {
+            return new ArrowData[0];
+        }
+
+        List<ArrowData> arrowDataList = new List<ArrowData>();
+
+        foreach (GameObject arrowObj in activeArrows)
+        {
+            if (arrowObj != null)
+            {
+                Arrow arrowComp = arrowObj.GetComponent<Arrow>();
+                if (arrowComp != null && arrowComp.List_LR_Points != null && arrowComp.List_LR_Points.Count > 0)
+                {
+                    ArrowData aData = new ArrowData();
+                    aData.scaleFaktor = arrowComp.Scale_Faktor;
+                    aData.colorR = arrowComp.COL_Unselected_R;
+                    aData.colorG = arrowComp.COL_Unselected_G;
+                    aData.colorB = arrowComp.COL_Unselected_B;
+
+                    List<WaypointData> pointList = new List<WaypointData>();
+                    foreach (Vector3 pos in arrowComp.List_LR_Points)
+                    {
+                        WaypointData pData = new WaypointData();
+                        pData.position = pos;
+                        pointList.Add(pData);
+                    }
+
+                    aData.points = pointList.ToArray();
+                    arrowDataList.Add(aData);
+                }
+            }
+        }
+
+        return arrowDataList.ToArray();
+    }
+
+    public void LoadData(bool Temporary)
+    {
+        string filePath = "";
+
+        if (Temporary)
+        {
+            filePath = Path.Combine(Application.persistentDataPath, "temp_mission_save.json");
+        }
+        else
+        {
+            filePath = OpenFileDialog();
+        }
 
         if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
         {
@@ -468,6 +511,19 @@ public class InputOutput : MonoBehaviour
             if (dataContainer.sorties != null && SortieManager != null)
             {
                 LoadSortiesData(dataContainer.sorties);
+            }
+
+            if (dataContainer.arrows != null && ArrowsManager != null)
+            {
+                LoadArrowsData(dataContainer.arrows);
+            }
+
+            if (dataContainer.cameraData != null && MainCamera != null && Temporary)
+            {
+                MainCamera.transform.position = dataContainer.cameraData.position;
+                MainCamera.transform.rotation = dataContainer.cameraData.rotation;
+                MainCamera.orthographicSize = dataContainer.cameraData.orthographicSize;
+                Camera_Movement.Projection_Size = dataContainer.cameraData.ProjectionSize;
             }
 
             isMissionLoaded = true;
@@ -567,6 +623,11 @@ public class InputOutput : MonoBehaviour
                 LoadSortiesData(dataContainer.sorties);
             }
 
+            if (dataContainer.arrows != null && ArrowsManager != null)
+            {
+                LoadArrowsData(dataContainer.arrows);
+            }
+
             if (dataContainer.cameraData != null && MainCamera != null)
             {
                 MainCamera.transform.position = dataContainer.cameraData.position;
@@ -660,6 +721,28 @@ public class InputOutput : MonoBehaviour
         SortieManager.ResetSortiesAtStart();
     }
 
+    private void LoadArrowsData(ArrowData[] loadedArrows)
+    {
+        foreach (ArrowData aData in loadedArrows)
+        {
+            if (aData == null || aData.points == null || aData.points.Length == 0)
+            {
+                continue;
+            }
+
+            List<Vector3> pointList = new List<Vector3>();
+            foreach (WaypointData pData in aData.points)
+            {
+                pointList.Add(pData.position);
+            }
+
+            Color arrowColor = new Color(aData.colorR, aData.colorG, aData.colorB);
+
+            // Ruft die neue Helper-Funktion im ArrowsManager auf
+            ArrowsManager.CreateLoadedArrow(pointList, aData.scaleFaktor, arrowColor);
+        }
+    }
+
     private int GetMapIndexFromPath(string path)
     {
         if (path == "Terrain_naval")
@@ -725,7 +808,7 @@ public class InputOutput : MonoBehaviour
 
     public void BTN_OpticalDetection()
     {
-        Temp_SaveData();
+        SaveData(true);
         SceneManager.LoadScene("OpticalDetection");
     }
 

@@ -103,7 +103,7 @@
             "id": "2394f8f3-5f1c-4248-a1e8-47ae65ae8498",
             "actions": [
                 {
-                    "name": "LShift",
+                    "name": "Mode_Waypoint",
                     "type": "Button",
                     "id": "6a76e8a2-ca4e-4a0b-99fa-c019d13bc7a2",
                     "expectedControlType": "",
@@ -120,7 +120,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LShift",
+                    "action": "Mode_Waypoint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -169,6 +169,62 @@
                     "processors": "",
                     "groups": "",
                     "action": "Deselect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Arrows",
+            "id": "02d76c38-b8bb-4586-8f90-0930b727218b",
+            "actions": [
+                {
+                    "name": "Mode_Arrow",
+                    "type": "Button",
+                    "id": "9b7ef60c-5b89-416a-b311-372a4dbd4c0a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "07272426-cd9b-4166-9439-05cb8aa1ee86",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode_Arrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Delete",
+            "id": "efd7c208-2d2d-40a6-92d5-42fd6fd22f7b",
+            "actions": [
+                {
+                    "name": "Delete",
+                    "type": "Button",
+                    "id": "322ce4fe-af8f-48fb-8530-250cd7ede3e0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "46c07c82-298f-454c-980e-483f134fd375",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
