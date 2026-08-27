@@ -374,7 +374,7 @@ public class OpticalLogic : MonoBehaviour
         DD.value = 0;
         DD.RefreshShownValue();
 
-        Debug.Log($"{TXT_DD_Label} set to {L_Names[0]}");
+        //Debug.Log($"{TXT_DD_Label} set to {L_Names[0]}");
         //OBJ_WinnerBackground.SetActive(false);
     }
 

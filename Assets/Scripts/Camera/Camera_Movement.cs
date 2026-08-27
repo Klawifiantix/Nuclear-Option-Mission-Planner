@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Camera_Movement : MonoBehaviour
 {
-    [SerializeField] float Projection_Size;
+    public float Projection_Size;
     [SerializeField] float MoveSpeed;
     [SerializeField] float ZoomStep;
 

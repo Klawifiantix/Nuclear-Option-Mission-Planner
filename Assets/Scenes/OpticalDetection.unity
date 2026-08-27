@@ -326,7 +326,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Missioin Planner
+  m_text: Mission Planner
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4dad97334eeff124a8c323cafceed819, type: 2}
   m_sharedMaterial: {fileID: -2148508832795024229, guid: 4dad97334eeff124a8c323cafceed819, type: 2}

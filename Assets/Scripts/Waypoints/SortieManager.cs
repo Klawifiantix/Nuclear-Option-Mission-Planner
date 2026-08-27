@@ -239,6 +239,10 @@ public class SortieManager : MonoBehaviour
 
     public void ChangeSortie(int Index)
     {
+        if(Index < 0)
+        {
+            Index = 0;
+        }
         ActualSortie = Index;
         UpdateMeasurement();
     }

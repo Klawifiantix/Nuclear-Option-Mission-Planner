@@ -77,6 +77,15 @@ public class SortieData
 }
 
 [Serializable]
+public class CameraData
+{
+    public Vector3 position;
+    public Quaternion rotation;
+    public float orthographicSize;
+    public float ProjectionSize;
+}
+
+[Serializable]
 public class SaveDataContainer
 {
     public MapKeyData MapKey;
@@ -85,12 +94,16 @@ public class SaveDataContainer
     public UnitData[] ships;
     public UnitData[] aircraft;
     public SortieData[] sorties;
+    public CameraData cameraData;
 }
 #endregion
 
 public class InputOutput : MonoBehaviour
 {
     [SerializeField] private TMP_Text BTN_LoadText;
+    [SerializeField] Camera MainCamera;
+    [SerializeField] Transform TRANS_Camera;
+    [SerializeField] Camera_Movement Camera_Movement;
 
     private ObjectCreator ObjectCreator;
     private PlacedObjects PlacedObjects;
@@ -99,6 +112,10 @@ public class InputOutput : MonoBehaviour
     private Map_Setup Map_Setup;
 
     private bool isMissionLoaded = false;
+
+    bool LoadedTempData;
+    int FramesToWait = 0;
+    int ActualFrame;
 
     private void Awake()
     {
@@ -124,6 +141,28 @@ public class InputOutput : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LoadedTempData = false;
+    }
+
+    private void Update()
+    {
+        if (!LoadedTempData)
+        {
+            if (ActualFrame < FramesToWait)
+            {
+                ActualFrame++;
+            }
+            else
+            {
+                ActualFrame = FramesToWait;
+                Temp_LoadData();
+                LoadedTempData = true;
+            }
+        }
+    }
+
     public void OnLoadOrNewButtonPressed()
     {
         if (!isMissionLoaded)
@@ -132,6 +171,7 @@ public class InputOutput : MonoBehaviour
         }
         else
         {
+            DeleteTempFile();
             RestartScene();
         }
     }
@@ -171,6 +211,59 @@ public class InputOutput : MonoBehaviour
             }
 
             dataContainer.sorties = ExtractSortieData();
+
+            string jsonContent = JsonUtility.ToJson(dataContainer, true);
+            File.WriteAllText(filePath, jsonContent);
+
+            Debug.Log($"Daten erfolgreich in {filePath} gespeichert.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Fehler beim Speichern der Datei: {ex.Message}");
+        }
+    }
+
+    public void Temp_SaveData()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "temp_mission_save.json");
+
+        if (string.IsNullOrEmpty(filePath))
+        {
+            Debug.LogWarning("SaveData abgebrochen: Kein Speicherpfad ausgewählt.");
+            return;
+        }
+
+        try
+        {
+            SaveDataContainer dataContainer = new SaveDataContainer();
+
+            dataContainer.MapKey = new MapKeyData();
+            if (Map_Setup != null)
+            {
+                int currentMapIndex = Map_Setup.GetCurrentMapIndex();
+                dataContainer.MapKey.Path = GetPathFromMapIndex(currentMapIndex);
+            }
+
+            if (PlacedObjects != null)
+            {
+                dataContainer.buildings = ExtractUnitData(PlacedObjects.List_Buildings);
+                dataContainer.vehicles = ExtractUnitData(PlacedObjects.List_Vehicle);
+                dataContainer.ships = ExtractUnitData(PlacedObjects.List_Ships);
+                dataContainer.aircraft = ExtractUnitData(PlacedObjects.List_Aircraft);
+            }
+
+            dataContainer.sorties = ExtractSortieData();
+
+            if (MainCamera != null)
+            {
+                dataContainer.cameraData = new CameraData
+                {
+                    position = MainCamera.transform.position,
+                    rotation = MainCamera.transform.rotation,
+                    orthographicSize = MainCamera.orthographicSize,
+                    ProjectionSize = Camera_Movement.Projection_Size,
+                };
+            }
 
             string jsonContent = JsonUtility.ToJson(dataContainer, true);
             File.WriteAllText(filePath, jsonContent);
@@ -392,6 +485,111 @@ public class InputOutput : MonoBehaviour
         }
     }
 
+    public void Temp_LoadData()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "temp_mission_save.json");
+
+        if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+        {
+            Debug.LogWarning("LoadData abgebrochen: Keine gültige Datei ausgewählt.");
+            return;
+        }
+
+        try
+        {
+            string jsonContent = File.ReadAllText(filePath);
+            SaveDataContainer dataContainer = JsonUtility.FromJson<SaveDataContainer>(jsonContent);
+
+            if (dataContainer == null)
+            {
+                Debug.LogError("Fehler beim Parsen der JSON-Datei.");
+                return;
+            }
+
+            if (dataContainer.MapKey != null && Map_Setup != null)
+            {
+                int mapIndex = GetMapIndexFromPath(dataContainer.MapKey.Path);
+                Map_Setup.InitializeMap(mapIndex);
+            }
+
+            if (ObjectCreator == null)
+            {
+                Debug.LogError("ObjectCreator-Referenz fehlt.");
+                return;
+            }
+
+            if (dataContainer.buildings != null)
+            {
+                foreach (UnitData unit in dataContainer.buildings)
+                {
+                    if (unit != null)
+                    {
+                        ObjectCreator.CreateObject(unit.faction, true, false, false, false, unit.type, unit.globalPosition, unit.rotation);
+                    }
+                }
+            }
+
+            if (dataContainer.vehicles != null)
+            {
+                foreach (UnitData unit in dataContainer.vehicles)
+                {
+                    if (unit != null)
+                    {
+                        ObjectCreator.CreateObject(unit.faction, false, true, false, false, unit.type, unit.globalPosition, unit.rotation);
+                    }
+                }
+            }
+
+            if (dataContainer.ships != null)
+            {
+                foreach (UnitData unit in dataContainer.ships)
+                {
+                    if (unit != null)
+                    {
+                        ObjectCreator.CreateObject(unit.faction, false, false, true, false, unit.type, unit.globalPosition, unit.rotation);
+                    }
+                }
+            }
+
+            if (dataContainer.aircraft != null)
+            {
+                foreach (UnitData unit in dataContainer.aircraft)
+                {
+                    if (unit != null)
+                    {
+                        ObjectCreator.CreateObject(unit.faction, false, false, false, true, unit.type, unit.globalPosition, unit.rotation);
+                    }
+                }
+            }
+
+            if (dataContainer.sorties != null && SortieManager != null)
+            {
+                LoadSortiesData(dataContainer.sorties);
+            }
+
+            if (dataContainer.cameraData != null && MainCamera != null)
+            {
+                MainCamera.transform.position = dataContainer.cameraData.position;
+                MainCamera.transform.rotation = dataContainer.cameraData.rotation;
+                MainCamera.orthographicSize = dataContainer.cameraData.orthographicSize;
+                Camera_Movement.Projection_Size = dataContainer.cameraData.ProjectionSize;
+            }
+
+            isMissionLoaded = true;
+
+            if (BTN_LoadText != null)
+            {
+                BTN_LoadText.text = "New";
+            }
+
+            Debug.Log($"Daten erfolgreich aus {filePath} geladen.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Fehler beim Lesen der Datei: {ex.Message}");
+        }
+    }
+
     private void LoadSortiesData(SortieData[] loadedSorties)
     {
         System.Reflection.FieldInfo prefabWpField = typeof(SortieManager).GetField("Prefab_Waypoint", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -527,6 +725,28 @@ public class InputOutput : MonoBehaviour
 
     public void BTN_OpticalDetection()
     {
+        Temp_SaveData();
         SceneManager.LoadScene("OpticalDetection");
+    }
+
+    private void OnApplicationQuit()
+    {
+        DeleteTempFile();
+    }
+
+    private void DeleteTempFile()
+    {
+        if (File.Exists(Path.Combine(Application.persistentDataPath, "temp_mission_save.json")))
+        {
+            try
+            {
+                File.Delete(Path.Combine(Application.persistentDataPath, "temp_mission_save.json"));
+                Debug.Log("Temporäre Datei gelöscht.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
+            }
+        }
     }
 }

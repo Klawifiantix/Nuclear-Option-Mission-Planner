@@ -10427,9 +10427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   BTN_LoadText: {fileID: 310356148}
-  MainCamera: {fileID: 330585545}
-  TRANS_Camera: {fileID: 330585546}
-  Camera_Movement: {fileID: 330585548}
 --- !u!114 &1878005605
 MonoBehaviour:
   m_ObjectHideFlags: 0
