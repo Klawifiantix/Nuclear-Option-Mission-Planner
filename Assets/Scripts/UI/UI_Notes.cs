@@ -3,19 +3,27 @@ using UnityEngine.UI;
 
 public class UI_Notes : MonoBehaviour
 {
-    ArrowsManager ArrowsManager;
+    Notes Notes;
     [SerializeField] Slider SLI_Width;
 
     [SerializeField] Slider SLI_Color_R;
     [SerializeField] Slider SLI_Color_G;
     [SerializeField] Slider SLI_Color_B;
 
+    [SerializeField] GameObject OBJ_BackgroundArrow;
+    [SerializeField] GameObject OBJ_BackgroundArea;
+
+    [SerializeField] GameObject OBJ_Width;
+    [SerializeField] GameObject OBJ_Color_R;
+    [SerializeField] GameObject OBJ_Color_G;
+    [SerializeField] GameObject OBJ_Color_B;
     Arrow Arrow;
-    Color ArrowSelectedColor;
+    Area Area;
+    Color NoteUnselectedColor;
 
     private void Awake()
     {
-        ArrowsManager = GameObject.Find("+---Notes---+").GetComponent<ArrowsManager>();
+        Notes = GameObject.Find("+---Notes---+").GetComponent<Notes>();
     }
 
     private void Start()
@@ -28,27 +36,72 @@ public class UI_Notes : MonoBehaviour
 
     public void SetWidth()
     {
-        if(ArrowsManager.SelectedArrow == null)
+        if(Notes.SelectedNote == null)
         {
             return;
         }
-        
-        Arrow = ArrowsManager.SelectedArrow.GetComponent<Arrow>();
-        Arrow.SetScaleFaktor(SLI_Width.value * 2f);
+
+        if(Notes.SelectedNote.GetComponent<Arrow>())
+        {
+            Arrow = Notes.SelectedNote.GetComponent<Arrow>();
+            Arrow.SetScaleFaktor(SLI_Width.value * 2f);
+        }
     }
 
     public void SetColor()
     {
-        if (ArrowsManager.SelectedArrow == null)
+        if (Notes.SelectedNote == null)
         {
             return;
         }
 
-        ArrowSelectedColor.r = SLI_Color_R.value;
-        ArrowSelectedColor.g = SLI_Color_G.value;
-        ArrowSelectedColor.b = SLI_Color_B.value;
+        NoteUnselectedColor.r = SLI_Color_R.value;
+        NoteUnselectedColor.g = SLI_Color_G.value;
+        NoteUnselectedColor.b = SLI_Color_B.value;
 
-        Arrow = ArrowsManager.SelectedArrow.GetComponent<Arrow>();
-        Arrow.SetUnselectedColor(ArrowSelectedColor);
+        if(Notes.SelectedNote.GetComponent<Arrow>())
+        {
+            Arrow = Notes.SelectedNote.GetComponent<Arrow>();
+            Arrow.SetUnselectedColor(NoteUnselectedColor);
+        }
+
+        if(Notes.SelectedNote.GetComponent<Area>())
+        {
+            Area = Notes.SelectedNote.GetComponent<Area>();
+            Area.SetUnselectedColor(NoteUnselectedColor);
+        }
+    }
+
+    public void DisplayArrowControls()
+    {
+        OBJ_BackgroundArrow.SetActive(true);
+        OBJ_BackgroundArea.SetActive(false);
+
+        OBJ_Width.SetActive(true);
+        OBJ_Color_R.SetActive(true);
+        OBJ_Color_G.SetActive(true);
+        OBJ_Color_B.SetActive(true);
+    }
+
+    public void DisplayAreaControls()
+    {
+        OBJ_BackgroundArrow.SetActive(false);
+        OBJ_BackgroundArea.SetActive(true);
+
+        OBJ_Width.SetActive(false);
+        OBJ_Color_R.SetActive(true);
+        OBJ_Color_G.SetActive(true);
+        OBJ_Color_B.SetActive(true);
+    }
+
+    public void HideAll()
+    {
+        OBJ_BackgroundArrow.SetActive(false);
+        OBJ_BackgroundArea.SetActive(false);
+
+        OBJ_Width.SetActive(false);
+        OBJ_Color_R.SetActive(false);
+        OBJ_Color_G.SetActive(false);
+        OBJ_Color_B.SetActive(false);
     }
 }

@@ -30,10 +30,21 @@ public class SelectionBox : MonoBehaviour
             return;
         }
 
-        if (EventSystem.current.IsPointerOverGameObject())
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        pointerData.position = Mouse.current.position.ReadValue();
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        if (results.Count > 0)
         {
-            Debug.Log("Es wurde auf ein UI-Element geklickt.");
-            return;
+            GameObject hitObject = results[0].gameObject;
+            string tag = hitObject.transform.tag;
+            if (tag == "Clickable")
+            {
+                isSelecting = false;
+                return;
+            }
         }
 
         if (Mouse.current.leftButton.wasPressedThisFrame)

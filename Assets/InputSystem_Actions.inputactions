@@ -229,6 +229,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Areas",
+            "id": "2d06257c-0b87-4b4e-ade3-998d6b8a7d32",
+            "actions": [
+                {
+                    "name": "Mode_Area",
+                    "type": "Button",
+                    "id": "f3ba5452-e1fb-42b5-869e-51e3f061a3b0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8fa5d7f0-c507-484a-b0e0-cf32271185b1",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode_Area",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

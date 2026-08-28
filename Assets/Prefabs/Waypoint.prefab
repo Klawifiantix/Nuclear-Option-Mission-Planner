@@ -370,6 +370,9 @@ MonoBehaviour:
   TXT_ID: {fileID: 3804878066340285540}
   TXT_Distance: {fileID: 1877123103266082498}
   TXT_TravelTime: {fileID: 3356260010415334895}
+  Distance: 0
+  TravelTime: 0
+  HoverTarget: 0
 --- !u!1 &6968187043068507637
 GameObject:
   m_ObjectHideFlags: 0

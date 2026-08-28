@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8774646237436117219
+--- !u!1 &5254060818821984864
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2096136544393720206}
-  - component: {fileID: 481051945100319772}
-  - component: {fileID: 2901333108348964496}
-  - component: {fileID: 8947010335853190682}
-  - component: {fileID: 8244031421353833205}
-  - component: {fileID: 1090043762977666358}
+  - component: {fileID: 4429894540132335314}
+  - component: {fileID: 6694328426682276}
+  - component: {fileID: 2835954433023446687}
+  - component: {fileID: 4459886287624412701}
+  - component: {fileID: 394033697667051464}
+  - component: {fileID: 7678971923191842558}
   m_Layer: 8
-  m_Name: Arrow
-  m_TagString: Clickable
+  m_Name: Area
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2096136544393720206
+--- !u!4 &4429894540132335314
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774646237436117219}
+  m_GameObject: {fileID: 5254060818821984864}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 500, y: 1, z: 500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &481051945100319772
+--- !u!33 &6694328426682276
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774646237436117219}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2901333108348964496
+  m_GameObject: {fileID: 5254060818821984864}
+  m_Mesh: {fileID: 0}
+--- !u!23 &2835954433023446687
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774646237436117219}
+  m_GameObject: {fileID: 5254060818821984864}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: e1220abfbbda1014195bd3ee7170a438, type: 3}
+  - {fileID: -876546973899608171, guid: 865f000e3fb42904791c6da238e86ff3, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,13 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8947010335853190682
+--- !u!64 &4459886287624412701
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774646237436117219}
+  m_GameObject: {fileID: 5254060818821984864}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -114,15 +114,15 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!120 &8244031421353833205
+  m_Mesh: {fileID: 0}
+--- !u!120 &394033697667051464
 LineRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774646237436117219}
+  m_GameObject: {fileID: 5254060818821984864}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -141,7 +141,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -876546973899608171, guid: b142de2811c9bd646a8633c0c7da8481, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,12 +164,10 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Positions:
-  - {x: 0, y: 5, z: 0}
-  - {x: 0, y: 5, z: -5000}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 2500
+    widthMultiplier: 250
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -187,8 +185,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0, a: 0.13725491}
-      key1: {r: 1, g: 0, b: 0, a: 0.13725491}
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -215,7 +213,7 @@ LineRenderer:
       m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 90
+    numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
     textureMode: 0
@@ -223,29 +221,21 @@ LineRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
-  m_Loop: 0
+  m_Loop: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &1090043762977666358
+--- !u!114 &7678971923191842558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774646237436117219}
+  m_GameObject: {fileID: 5254060818821984864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4dff710d1ef06419bcf84860a394da, type: 3}
+  m_Script: {fileID: 11500000, guid: 34faf38ca8d388c4089f88d2855515ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  LR: {fileID: 0}
-  MAT_ArrowHead: {fileID: 0}
-  Scale_Faktor: 10
-  ArrowHead_Size: 0
-  ArrowHeadScale: {x: 0, y: 0, z: 0}
-  LR_Width: 0
-  List_LR_Points: []
+  List_AreaCorners: []
   COL_Selected: {r: 1, g: 1, b: 1, a: 1}
-  COL_Unselected: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  COL_Unselected_R: 0
-  COL_Unselected_G: 0
-  COL_Unselected_B: 0
+  COL_Unselected: {r: 1, g: 0.68073237, b: 0, a: 1}
+  Length: 0

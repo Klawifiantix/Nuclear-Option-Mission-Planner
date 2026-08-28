@@ -21,6 +21,9 @@ public class Inputs : MonoBehaviour
     [Header("Arrows")]
     [SerializeField] private InputActionReference Mode_Arrow;
 
+    [Header("Areas")]
+    [SerializeField] private InputActionReference Mode_Areas;
+
     [Header("Delete")]
     [SerializeField] private InputActionReference Delete;
 
@@ -58,6 +61,11 @@ public class Inputs : MonoBehaviour
     public bool Mode_Arrow_Up { get; private set; }
 
     //Arrows
+    public bool Mode_Areas_Held { get; private set; }
+    public bool Mode_Areas_Down { get; private set; }
+    public bool Mode_Areas_Up { get; private set; }
+
+    //Delete
     public bool Delete_Held { get; private set; }
     public bool Delete_Down { get; private set; }
     public bool Delete_Up { get; private set; }
@@ -123,6 +131,12 @@ public class Inputs : MonoBehaviour
             Mode_Arrow.action.Enable();
         }
 
+        //Areas
+        if (Mode_Areas != null)
+        {
+            Mode_Areas.action.Enable();
+        }
+
         //Delete
         if (Delete != null)
         {
@@ -173,6 +187,12 @@ public class Inputs : MonoBehaviour
         if (Mode_Arrow != null)
         {
             Mode_Arrow.action.Disable();
+        }
+
+        //Areas
+        if (Mode_Areas != null)
+        {
+            Mode_Areas.action.Disable();
         }
 
         //Delete
@@ -257,6 +277,18 @@ public class Inputs : MonoBehaviour
         else
         {
             Mode_Arrow_Held = Mode_Arrow_Down = Mode_Arrow_Up = false;
+        }
+
+        //Areas
+        if (Mode_Areas != null)
+        {
+            Mode_Areas_Held = Mode_Areas.action.IsPressed();
+            Mode_Areas_Down = Mode_Areas.action.WasPressedThisFrame();
+            Mode_Areas_Up = Mode_Areas.action.WasReleasedThisFrame();
+        }
+        else
+        {
+            Mode_Areas_Held = Mode_Areas_Down = Mode_Areas_Up = false;
         }
 
         //Delete

@@ -87,6 +87,15 @@ public class ArrowData
 }
 
 [Serializable]
+public class AreaData
+{
+    public float colorR;
+    public float colorG;
+    public float colorB;
+    public WaypointData[] points;
+}
+
+[Serializable]
 public class CameraData
 {
     public Vector3 position;
@@ -105,6 +114,7 @@ public class SaveDataContainer
     public UnitData[] aircraft;
     public SortieData[] sorties;
     public ArrowData[] arrows;
+    public AreaData[] areas;
     public CameraData cameraData;
 }
 #endregion
@@ -122,6 +132,7 @@ public class InputOutput : MonoBehaviour
     private SortieWing SortieWing;
     private Map_Setup Map_Setup;
     private ArrowsManager ArrowsManager;
+    private AreasManager AreasManager;
 
     [SerializeField] bool isMissionLoaded = false;
 
@@ -152,10 +163,11 @@ public class InputOutput : MonoBehaviour
             SortieWing = sortieContainer.GetComponent<SortieWing>();
         }
 
-        GameObject arrowsContainer = GameObject.Find("+---Notes---+");
-        if (arrowsContainer != null)
+        GameObject notesContainer = GameObject.Find("+---Notes---+");
+        if (notesContainer != null)
         {
-            ArrowsManager = arrowsContainer.GetComponent<ArrowsManager>();
+            ArrowsManager = notesContainer.GetComponent<ArrowsManager>();
+            AreasManager = notesContainer.GetComponent<AreasManager>();
         }
     }
 
@@ -181,23 +193,7 @@ public class InputOutput : MonoBehaviour
         }
     }
 
-    public void OnLoadOrNewButtonPressed()
-    {
-        if (!isMissionLoaded)
-        {
-            LoadData(false);
-        }
-        else
-        {
-            DeleteTempFile();
-            RestartScene();
-        }
-    }
-
-    public void RestartScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    
 
     public void SaveData(bool Temporary)
     {
@@ -239,6 +235,7 @@ public class InputOutput : MonoBehaviour
 
             dataContainer.sorties = ExtractSortieData();
             dataContainer.arrows = ExtractArrowData();
+            dataContainer.areas = ExtractAreaData();
 
             if (MainCamera != null && Temporary)
             {
@@ -381,9 +378,7 @@ public class InputOutput : MonoBehaviour
             return new ArrowData[0];
         }
 
-        // List_ActiveArrows per Reflection auslesen, da private
-        System.Reflection.FieldInfo arrowsField = typeof(ArrowsManager).GetField("List_ActiveArrows", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        List<GameObject> activeArrows = arrowsField != null ? arrowsField.GetValue(ArrowsManager) as List<GameObject> : null;
+        List<GameObject> activeArrows = ArrowsManager.List_ActiveArrows;
 
         if (activeArrows == null || activeArrows.Count == 0)
         {
@@ -420,6 +415,57 @@ public class InputOutput : MonoBehaviour
         }
 
         return arrowDataList.ToArray();
+    }
+
+    private AreaData[] ExtractAreaData()
+    {
+        if (AreasManager == null)
+        {
+            return new AreaData[0];
+        }
+
+        List<GameObject> activeAreas = AreasManager.List_ActiveAreas;
+
+        if (activeAreas == null || activeAreas.Count == 0)
+        {
+            return new AreaData[0];
+        }
+
+        List<AreaData> areaDataList = new List<AreaData>();
+
+        foreach (GameObject areaObj in activeAreas)
+        {
+            if (areaObj != null)
+            {
+                Area areaComp = areaObj.GetComponent<Area>();
+                if (areaComp != null)
+                {
+                    System.Reflection.FieldInfo cornersField = typeof(Area).GetField("List_AreaCorners", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    List<Vector3> corners = cornersField != null ? cornersField.GetValue(areaComp) as List<Vector3> : null;
+
+                    if (corners != null && corners.Count > 0)
+                    {
+                        AreaData aData = new AreaData();
+                        aData.colorR = areaComp.COL_Unselected_R;
+                        aData.colorG = areaComp.COL_Unselected_G;
+                        aData.colorB = areaComp.COL_Unselected_B;
+
+                        List<WaypointData> pointList = new List<WaypointData>();
+                        foreach (Vector3 pos in corners)
+                        {
+                            WaypointData pData = new WaypointData();
+                            pData.position = pos;
+                            pointList.Add(pData);
+                        }
+
+                        aData.points = pointList.ToArray();
+                        areaDataList.Add(aData);
+                    }
+                }
+            }
+        }
+
+        return areaDataList.ToArray();
     }
 
     public void LoadData(bool Temporary)
@@ -508,14 +554,19 @@ public class InputOutput : MonoBehaviour
                 }
             }
 
-            if (dataContainer.sorties != null && SortieManager != null)
+            if (dataContainer.sorties != null)
             {
-                LoadSortiesData(dataContainer.sorties);
+                LoadSortieData(dataContainer.sorties);
             }
 
             if (dataContainer.arrows != null && ArrowsManager != null)
             {
                 LoadArrowsData(dataContainer.arrows);
+            }
+
+            if (dataContainer.areas != null && AreasManager != null)
+            {
+                LoadAreasData(dataContainer.areas);
             }
 
             if (dataContainer.cameraData != null && MainCamera != null && Temporary)
@@ -523,7 +574,11 @@ public class InputOutput : MonoBehaviour
                 MainCamera.transform.position = dataContainer.cameraData.position;
                 MainCamera.transform.rotation = dataContainer.cameraData.rotation;
                 MainCamera.orthographicSize = dataContainer.cameraData.orthographicSize;
-                Camera_Movement.Projection_Size = dataContainer.cameraData.ProjectionSize;
+
+                if (Camera_Movement != null)
+                {
+                    Camera_Movement.Projection_Size = dataContainer.cameraData.ProjectionSize;
+                }
             }
 
             isMissionLoaded = true;
@@ -537,121 +592,13 @@ public class InputOutput : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Fehler beim Lesen der Datei: {ex.Message}");
+            Debug.LogError($"Fehler beim Laden der Datei: {ex.Message}");
         }
+
+        isMissionLoaded = true;
     }
 
-    public void Temp_LoadData()
-    {
-        string filePath = Path.Combine(Application.persistentDataPath, "temp_mission_save.json");
-
-        if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
-        {
-            Debug.LogWarning("LoadData abgebrochen: Keine gültige Datei ausgewählt.");
-            return;
-        }
-
-        try
-        {
-            string jsonContent = File.ReadAllText(filePath);
-            SaveDataContainer dataContainer = JsonUtility.FromJson<SaveDataContainer>(jsonContent);
-
-            if (dataContainer == null)
-            {
-                Debug.LogError("Fehler beim Parsen der JSON-Datei.");
-                return;
-            }
-
-            if (dataContainer.MapKey != null && Map_Setup != null)
-            {
-                int mapIndex = GetMapIndexFromPath(dataContainer.MapKey.Path);
-                Map_Setup.InitializeMap(mapIndex);
-            }
-
-            if (ObjectCreator == null)
-            {
-                Debug.LogError("ObjectCreator-Referenz fehlt.");
-                return;
-            }
-
-            if (dataContainer.buildings != null)
-            {
-                foreach (UnitData unit in dataContainer.buildings)
-                {
-                    if (unit != null)
-                    {
-                        ObjectCreator.CreateObject(unit.faction, true, false, false, false, unit.type, unit.globalPosition, unit.rotation);
-                    }
-                }
-            }
-
-            if (dataContainer.vehicles != null)
-            {
-                foreach (UnitData unit in dataContainer.vehicles)
-                {
-                    if (unit != null)
-                    {
-                        ObjectCreator.CreateObject(unit.faction, false, true, false, false, unit.type, unit.globalPosition, unit.rotation);
-                    }
-                }
-            }
-
-            if (dataContainer.ships != null)
-            {
-                foreach (UnitData unit in dataContainer.ships)
-                {
-                    if (unit != null)
-                    {
-                        ObjectCreator.CreateObject(unit.faction, false, false, true, false, unit.type, unit.globalPosition, unit.rotation);
-                    }
-                }
-            }
-
-            if (dataContainer.aircraft != null)
-            {
-                foreach (UnitData unit in dataContainer.aircraft)
-                {
-                    if (unit != null)
-                    {
-                        ObjectCreator.CreateObject(unit.faction, false, false, false, true, unit.type, unit.globalPosition, unit.rotation);
-                    }
-                }
-            }
-
-            if (dataContainer.sorties != null && SortieManager != null)
-            {
-                LoadSortiesData(dataContainer.sorties);
-            }
-
-            if (dataContainer.arrows != null && ArrowsManager != null)
-            {
-                LoadArrowsData(dataContainer.arrows);
-            }
-
-            if (dataContainer.cameraData != null && MainCamera != null)
-            {
-                MainCamera.transform.position = dataContainer.cameraData.position;
-                MainCamera.transform.rotation = dataContainer.cameraData.rotation;
-                MainCamera.orthographicSize = dataContainer.cameraData.orthographicSize;
-                Camera_Movement.Projection_Size = dataContainer.cameraData.ProjectionSize;
-            }
-
-            isMissionLoaded = true;
-
-            if (BTN_LoadText != null)
-            {
-                BTN_LoadText.text = "New";
-            }
-
-            Debug.Log($"Daten erfolgreich aus {filePath} geladen.");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Fehler beim Lesen der Datei: {ex.Message}");
-        }
-    }
-
-    private void LoadSortiesData(SortieData[] loadedSorties)
+    private void LoadSortieData(SortieData[] loadedSorties)
     {
         System.Reflection.FieldInfo prefabWpField = typeof(SortieManager).GetField("Prefab_Waypoint", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         GameObject prefabWaypoint = prefabWpField != null ? prefabWpField.GetValue(SortieManager) as GameObject : null;
@@ -738,71 +685,91 @@ public class InputOutput : MonoBehaviour
 
             Color arrowColor = new Color(aData.colorR, aData.colorG, aData.colorB);
 
-            // Ruft die neue Helper-Funktion im ArrowsManager auf
             ArrowsManager.CreateLoadedArrow(pointList, aData.scaleFaktor, arrowColor);
         }
     }
 
-    private int GetMapIndexFromPath(string path)
+    private void LoadAreasData(AreaData[] loadedAreas)
     {
-        if (path == "Terrain_naval")
+        foreach (AreaData aData in loadedAreas)
         {
-            return 1;
-        }
+            if (aData == null || aData.points == null || aData.points.Length == 0)
+            {
+                continue;
+            }
 
-        return 0;
+            List<Vector3> pointList = new List<Vector3>();
+            foreach (WaypointData pData in aData.points)
+            {
+                pointList.Add(pData.position);
+            }
+
+            Color areaColor = new Color(aData.colorR, aData.colorG, aData.colorB);
+
+            AreasManager.CreateLoadedArea(pointList, areaColor);
+        }
     }
 
+    #region Helper Methods (Map Path & File Dialogs)
     private string GetPathFromMapIndex(int index)
     {
-        if (index == 1)
-        {
-            return "Terrain_naval";
-        }
-
-        return "Terrain1";
+        return $"Maps/Map_{index}";
     }
 
-    private string OpenFileDialog()
+    private int GetMapIndexFromPath(string path)
     {
-        OpenFileName ofn = new OpenFileName();
-        ofn.structSize = Marshal.SizeOf(ofn);
-        ofn.filter = "JSON Files (*.json)\0*.json\0All Files (*.*)\0*.*\0";
-        ofn.file = new string(new char[256]);
-        ofn.maxFile = ofn.file.Length;
-        ofn.fileTitle = new string(new char[64]);
-        ofn.maxFileTitle = ofn.fileTitle.Length;
-        ofn.initialDir = UnityEngine.Application.dataPath;
-        ofn.title = "JSON-Datei für Einheiten auswählen";
-        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 | 0x00000200 | 0x00000008;
-
-        if (WinDll.GetOpenFileName(ofn))
+        if (string.IsNullOrEmpty(path))
         {
-            return ofn.file;
+            return 0;
         }
 
-        return null;
+        string[] parts = path.Split('_');
+        if (parts.Length > 1 && int.TryParse(parts[parts.Length - 1], out int idx))
+        {
+            return idx;
+        }
+        return 0;
     }
 
     private string SaveFileDialog()
     {
         OpenFileName ofn = new OpenFileName();
         ofn.structSize = Marshal.SizeOf(ofn);
-        ofn.filter = "JSON Files (*.json)\0*.json\0All Files (*.*)\0*.*\0";
+        ofn.filter = "JSON Files\0*.json\0All Files\0*.*\0";
         ofn.file = new string(new char[256]);
         ofn.maxFile = ofn.file.Length;
         ofn.fileTitle = new string(new char[64]);
         ofn.maxFileTitle = ofn.fileTitle.Length;
-        ofn.initialDir = UnityEngine.Application.dataPath;
-        ofn.title = "JSON-Datei für Einheiten speichern";
+        ofn.initialDir = Application.persistentDataPath;
+        ofn.title = "Save Mission";
         ofn.defExt = "json";
-        ofn.flags = 0x00080000 | 0x00000002 | 0x00000004 | 0x00000008;
+        ofn.flags = 0x00000002 | 0x00000004 | 0x00080000;
 
         if (WinDll.GetSaveFileName(ofn))
         {
             return ofn.file;
         }
+        return null;
+    }
 
+    private string OpenFileDialog()
+    {
+        OpenFileName ofn = new OpenFileName();
+        ofn.structSize = Marshal.SizeOf(ofn);
+        ofn.filter = "JSON Files\0*.json\0All Files\0*.*\0";
+        ofn.file = new string(new char[256]);
+        ofn.maxFile = ofn.file.Length;
+        ofn.fileTitle = new string(new char[64]);
+        ofn.maxFileTitle = ofn.fileTitle.Length;
+        ofn.initialDir = Application.persistentDataPath;
+        ofn.title = "Load Mission";
+        ofn.defExt = "json";
+        ofn.flags = 0x00000008 | 0x00080000;
+
+        if (WinDll.GetOpenFileName(ofn))
+        {
+            return ofn.file;
+        }
         return null;
     }
 
@@ -832,4 +799,22 @@ public class InputOutput : MonoBehaviour
             }
         }
     }
+
+    public void OnLoadOrNewButtonPressed()
+    {
+        if (!isMissionLoaded)
+        {
+            LoadData(false);
+        }
+        else
+        {
+            DeleteTempFile();
+            RestartScene();
+        }
+    }
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    #endregion
 }

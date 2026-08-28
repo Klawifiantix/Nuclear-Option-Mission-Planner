@@ -1,172 +1,37 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 
 public class ArrowsManager : MonoBehaviour
 {
     Inputs Inputs;
     MouseWorldPosition MouseWorldPosition;
-    MouseHoverNotes MouseHoverNotes;
     Transform TransArrows;
-    [SerializeField] GameObject OBJ_InfoPanel;
 
     [SerializeField] GameObject Prefab_Arrow;
-    [SerializeField] List<GameObject> List_ActiveArrows = new List<GameObject>();
+    public List<GameObject> List_ActiveArrows = new List<GameObject>();
     [SerializeField] List<GameObject> List_InactiveArrows = new List<GameObject>();
 
-    [SerializeField] int ActualArrow;
-    public GameObject SelectedArrow;
-
+    [SerializeField] GameObject ArrowToDelete;
+    public int ActualArrow;
+    //public GameObject SelectedArrow;
+    Notes Notes;
     Arrow Arrow;
+
     private void Awake()
     {
         Inputs = GameObject.Find("+---Control Center---+").GetComponent<Inputs>();
         MouseWorldPosition = GameObject.Find("+---Control Center---+").GetComponent<MouseWorldPosition>();
-        MouseHoverNotes = GameObject.Find("+---Control Center---+").GetComponent<MouseHoverNotes>();
         TransArrows = GameObject.Find("+---Arrows---+").transform;
+        Notes = GameObject.Find("+---Notes---+").GetComponent<Notes>();
     }
 
     private void Update()
     {
-        //Ohne Arrow Mode
-        if(!Inputs.Mode_Arrow_Held && Inputs.Select_Down)
-        {
-            if(MouseHoverNotes.HoverNote() != null)
-            {
-                if (SelectedArrow != null)
-                {
-                    SelectedArrow.GetComponent<Arrow>().UnselectArrow();
-                }
+        AddArrowPoint();
 
-                SelectedArrow = MouseHoverNotes.HoverNote();
-                SelectedArrow.GetComponent<Arrow>().SelectArrow();
-                ActualArrow = List_ActiveArrows.IndexOf(SelectedArrow);
-            }
-            else
-            {
-                if (EventSystem.current.IsPointerOverGameObject())
-                {
-                    Debug.Log("Es wurde auf ein UI-Element geklickt.");
-                }
-                else
-                {
-                    if (SelectedArrow != null)
-                    {
-                        SelectedArrow.GetComponent<Arrow>().UnselectArrow();
-                    }
+        RemoveArrowPoint();
 
-                    SelectedArrow = null;
-                    ActualArrow = List_ActiveArrows.Count; ;
-                }
-            }
-        }
-
-        //Arrow Hinzufügen
-        if (Inputs.Mode_Arrow_Held && Inputs.Select_Down)
-        {
-            Vector3 Spawnposition = MouseWorldPosition.MousePosition;
-            Spawnposition.y = 5f;
-
-            if (List_ActiveArrows.Count -1 < ActualArrow)
-            {
-                GameObject NewArrow = null;
-
-                if (List_InactiveArrows.Count == 0)
-                {
-                    NewArrow = GameObject.Instantiate(Prefab_Arrow);
-                    NewArrow.transform.SetParent(TransArrows);
-                    List_ActiveArrows.Add(NewArrow);
-                }
-                else
-                {
-                    NewArrow = List_InactiveArrows[0];
-                    if (List_InactiveArrows.Contains(NewArrow))
-                    {
-                        List_InactiveArrows.Remove(NewArrow);
-                    }
-
-                    if (!List_ActiveArrows.Contains(NewArrow))
-                    {
-                        List_ActiveArrows.Add(NewArrow);
-                    }
-
-                    NewArrow.SetActive(true);
-                }
-                NewArrow.transform.position = Spawnposition;
-                SelectedArrow = NewArrow;
-            }
-
-            if(List_ActiveArrows.Count >= ActualArrow + 1)
-            {
-                Arrow = List_ActiveArrows[ActualArrow].GetComponent<Arrow>();
-                Arrow.AddPosition(Spawnposition);
-                SelectedArrow = List_ActiveArrows[ActualArrow];
-            }
-        }
-
-        //Arrowpunkt entfernen
-        if(Inputs.Mode_Arrow_Held && Inputs.Deselect_Down)
-        {
-            if(List_ActiveArrows.Count >= ActualArrow + 1)
-            {
-                Arrow = List_ActiveArrows[ActualArrow].GetComponent<Arrow>();
-                if(Arrow.RemoveLastPosition())//Der letzte Punkt wurde entfernt
-                {
-                    DeleteArrow();
-                }
-            }
-        }
-
-        if(SelectedArrow != null && Inputs.Delete_Down)
-        {
-            DeleteArrow();
-        }
-
-        if(SelectedArrow != null)
-        {
-            OBJ_InfoPanel.SetActive(true);
-        }
-        else
-        {
-            OBJ_InfoPanel.SetActive(false);
-        }
-    }
-
-    void DeleteArrow()
-    {
-        GameObject ArrowToDelete = List_ActiveArrows[ActualArrow];
-
-        if (List_ActiveArrows.Contains(ArrowToDelete))
-        {
-            List_ActiveArrows.Remove(ArrowToDelete);
-        }
-
-        ArrowToDelete.SetActive(false);
-
-        if (!List_InactiveArrows.Contains(ArrowToDelete))
-        {
-            List_InactiveArrows.Add(ArrowToDelete);
-        }
-
-        ActualArrow--;
-
-        if (ActualArrow < 0)
-        {
-            ActualArrow = 0;
-            SelectedArrow = null;
-        }
-        else
-        {
-            if (List_ActiveArrows.Count - 1 == ActualArrow)
-            {
-                SelectedArrow = List_ActiveArrows[ActualArrow];
-                SelectedArrow.GetComponent<Arrow>().SelectArrow();
-            }
-            else
-            {
-                SelectedArrow = null;
-            }
-        }
+        DeleteArrow();
     }
 
     public GameObject CreateLoadedArrow(List<Vector3> points, float scaleFaktor, Color color)
@@ -199,5 +64,115 @@ public class ArrowsManager : MonoBehaviour
         arrowComp.UnselectArrow();
 
         return newArrow;
+    }    
+
+    void AddArrowPoint()
+    {
+        //Arrow Hinzufügen
+        if (Inputs.Mode_Arrow_Held && Inputs.Select_Down)
+        {
+            Vector3 Spawnposition = MouseWorldPosition.MousePosition;
+            Spawnposition.y = 5f;
+
+            if (List_ActiveArrows.Count - 1 < ActualArrow)
+            {
+                GameObject NewArrow = null;
+
+                if (List_InactiveArrows.Count == 0)
+                {
+                    NewArrow = GameObject.Instantiate(Prefab_Arrow);
+                    NewArrow.transform.SetParent(TransArrows);
+                    List_ActiveArrows.Add(NewArrow);
+                }
+                else
+                {
+                    NewArrow = List_InactiveArrows[0];
+                    if (List_InactiveArrows.Contains(NewArrow))
+                    {
+                        List_InactiveArrows.Remove(NewArrow);
+                    }
+
+                    if (!List_ActiveArrows.Contains(NewArrow))
+                    {
+                        List_ActiveArrows.Add(NewArrow);
+                    }
+
+                    NewArrow.SetActive(true);
+                }
+                NewArrow.transform.position = Spawnposition;
+                Notes.SelectedNote = NewArrow;
+            }
+
+            if (List_ActiveArrows.Count >= ActualArrow + 1)
+            {
+                Arrow = List_ActiveArrows[ActualArrow].GetComponent<Arrow>();
+                Arrow.AddPosition(Spawnposition);
+                Notes.SelectedNote = List_ActiveArrows[ActualArrow];
+            }
+        }
+    }
+
+    void RemoveArrowPoint()
+    {
+        //Arrowpunkt entfernen
+        if (Inputs.Mode_Arrow_Held && Inputs.Deselect_Down)
+        {
+            if (List_ActiveArrows.Count >= ActualArrow + 1)
+            {
+                Arrow = List_ActiveArrows[ActualArrow].GetComponent<Arrow>();
+                if (Arrow.RemoveLastPosition())//Der letzte Punkt wurde entfernt
+                {
+                    DeleteArrow_Final();
+                }
+            }
+        }
+    }
+
+    void DeleteArrow()
+    {
+        if (Notes.SelectedNote != null && Inputs.Delete_Down)
+        {
+            if(Notes.SelectedNote.GetComponent<Arrow>())
+            {
+                DeleteArrow_Final();
+            }
+        }
+    }
+
+    void DeleteArrow_Final()
+    {
+        ArrowToDelete = List_ActiveArrows[ActualArrow];
+
+        if (List_ActiveArrows.Contains(ArrowToDelete))
+        {
+            List_ActiveArrows.Remove(ArrowToDelete);
+        }
+
+        ArrowToDelete.SetActive(false);
+
+        if (!List_InactiveArrows.Contains(ArrowToDelete))
+        {
+            List_InactiveArrows.Add(ArrowToDelete);
+        }
+
+        ActualArrow--;
+
+        if (ActualArrow < 0)
+        {
+            ActualArrow = 0;
+            Notes.SelectedNote = null;
+        }
+        else
+        {
+            if (List_ActiveArrows.Count - 1 == ActualArrow)
+            {
+                Notes.SelectedNote = List_ActiveArrows[ActualArrow];
+                Notes.SelectedNote.GetComponent<Arrow>().SelectArrow();
+            }
+            else
+            {
+                Notes.SelectedNote = null;
+            }
+        }
     }
 }
