@@ -34,6 +34,16 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 * The configured speed of a sortie affects both the animation speed and the time required.
 * Additional sorties can be added by clicking on a new sortie at the very top (displayed in red). Red sorties contain no waypoints.
 
+### Arrows
+* Hold down the **"a" key** and **left-click** to set points for the arrow.
+* Hold down the **"a" key** and **right-click** to remove the last point of the arrow.
+* Selected arrows can be configured using the control panel that appears below.
+* Clicking in an empty area cancels an arrow selection.
+* Left-clicking on an arrowhead selects the arrow.
+
+---
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/11f7c4d9-a133-45d8-a164-70f4b6da5b2d" />
+
 ---
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/839b0b27-0afe-46a1-8433-091a70d32468" />
