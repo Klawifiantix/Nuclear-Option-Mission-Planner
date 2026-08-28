@@ -1,15 +1,9 @@
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/73891f06-af89-43bf-801e-88963cdf4335" />
-
-
 # Overview
 
 The program was originally developed to read the mission JSON files of Nuclear Option, which is why the name "Scanner" can still be found in some places, though its feature set has since grown. You can load any Nuclear Option mission using its JSON file, which displays the corresponding map along with all buildings and units (with Boscali colored blue and Primeva colored red).
 In addition, sorties can be planned using placed waypoints. Sorties can also be assigned to specific airframes. A created plan can be saved and reloaded later, allowing plans to be shared with others.
 
 ---
-
-<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/ce79fbef-abf2-4e9d-a69e-8e638c1ceef9" />
-
 
 # Controls & Usage
 
@@ -23,6 +17,12 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 * Click on empty space to clear the selection.
 * Click on a single unit or building to select only that object, and click on another unit to add it to the selection.
 
+---
+<img width="1920" height="1080" alt="selection" src="https://github.com/user-attachments/assets/5ab2f117-f665-4650-a948-f18c97d060ea" />
+<img width="1920" height="1080" alt="selection2" src="https://github.com/user-attachments/assets/fb490bad-6885-4cf9-91a1-f81a7c00fcd4" />
+
+---
+
 ### Sorties
 
 * Hold down the **left Shift key** and **left-click** to set a waypoint for the current sortie.
@@ -33,6 +33,11 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 * Click **>** to start the sortie animation, **||** to pause it, and **X** to stop it.
 * The configured speed of a sortie affects both the animation speed and the time required.
 * Additional sorties can be added by clicking on a new sortie at the very top (displayed in red). Red sorties contain no waypoints.
+
+---
+<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/d63701e7-f0fa-4992-b9be-2929cab72f09" />
+
+---
 
 ### Arrows
 * Hold down the **"a" key** and **left-click** to set points for the arrow.
@@ -58,23 +63,27 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 
 ---
 
-<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/839b0b27-0afe-46a1-8433-091a70d32468" />
-
 # Display Options
 
 * Two display versions are available: "true" color & black/white. You can cycle through the variants using the **"m" key**.
 
 ---
+<img width="1920" height="1080" alt="two" src="https://github.com/user-attachments/assets/302a4444-88b3-44f7-a260-fd1a3e7f0572" />
 
-<img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/f80b6a5e-7313-4c46-b7b7-87c450adecda" />
+---
 
+# Optical Detection
+
+* The "Optical Detection" button leads to a different section of the program, where two units can be compared. Optical detection is calculated based on data from the Nuclear Option Wiki. Plans created beforehand are temporarily saved, so switching back to the planning view should not result in any data loss.
+
+---
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/c70cf3ee-fad9-4933-8689-ee4889a5dcb3" />
+
+---
 
 # Saving
 
 Created sorties can be saved using the **Save** button. These are stored as JSON files, making them easily readable and simple to share with others.
 
-<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/ab46301d-14ed-44d5-a42c-c3ac97d1d01c" />
-
-<img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/3db860bf-3d5a-4f02-aeb8-2bef5ac78476" />
 
 
