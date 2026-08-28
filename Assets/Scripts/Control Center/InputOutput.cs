@@ -501,6 +501,7 @@ public class InputOutput : MonoBehaviour
             if (dataContainer.MapKey != null && Map_Setup != null)
             {
                 int mapIndex = GetMapIndexFromPath(dataContainer.MapKey.Path);
+                Debug.Log(mapIndex);
                 Map_Setup.InitializeMap(mapIndex);
             }
 
@@ -711,26 +712,26 @@ public class InputOutput : MonoBehaviour
     }
 
     #region Helper Methods (Map Path & File Dialogs)
-    private string GetPathFromMapIndex(int index)
-    {
-        return $"Maps/Map_{index}";
-    }
-
+    
     private int GetMapIndexFromPath(string path)
     {
-        if (string.IsNullOrEmpty(path))
+        if (path == "Terrain_naval")
         {
-            return 0;
+            return 1;
         }
 
-        string[] parts = path.Split('_');
-        if (parts.Length > 1 && int.TryParse(parts[parts.Length - 1], out int idx))
-        {
-            return idx;
-        }
         return 0;
     }
 
+    private string GetPathFromMapIndex(int index)
+    {
+        if (index == 1)
+        {
+            return "Terrain_naval";
+        }
+
+        return "Terrain1";
+    }
     private string SaveFileDialog()
     {
         OpenFileName ofn = new OpenFileName();
