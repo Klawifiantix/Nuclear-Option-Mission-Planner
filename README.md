@@ -25,8 +25,8 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 
 ### Sorties
 
-* Hold down the **left Shift key** and **left-click** to set a waypoint for the current sortie.
-* Hold down the **left Shift key** and **right-click** to remove the last waypoint of the current sortie.
+* Hold down the **"left Shift" key** and **left-click** to set a waypoint for the current sortie.
+* Hold down the **"left Shift" key** and **right-click** to remove the last waypoint of the current sortie.
 * Hover the mouse over a waypoint to enlarge its display.
 * Click the **plus symbol** to assign airframes to a sortie. Click the plus symbol again to close the open airframe selection screen.
 * Click the **minus symbol** to remove the most recently added airframe.
