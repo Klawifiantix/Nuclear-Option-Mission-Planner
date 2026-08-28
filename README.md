@@ -38,11 +38,23 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 * Hold down the **"a" key** and **left-click** to set points for the arrow.
 * Hold down the **"a" key** and **right-click** to remove the last point of the arrow.
 * Selected arrows can be configured using the control panel that appears below.
-* Clicking in an empty area cancels an arrow selection.
+* Clicking in an empty space cancels an arrow selection.
 * Left-clicking on an arrowhead selects the arrow.
 
 ---
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/11f7c4d9-a133-45d8-a164-70f4b6da5b2d" />
+
+---
+
+### Areas
+* Hold down the **"s" key** and **left-click** to set points for the arrow.
+* Hold down the **"s" key** and **right-click** to remove the last point of the arrow.
+* Selected areas can be configured using the control panel that appears below.
+* Clicking in an empty space cancels an area selection.
+* Left-clicking on an area selects the area.
+
+---
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/e2bae0ac-85da-42ac-86b6-9c07951f36e4" />
 
 ---
 
