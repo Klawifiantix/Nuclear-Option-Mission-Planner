@@ -66,6 +66,7 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 ### Labels
 * Hold down the **"d" key** and **left-click** to place a label.
 * Left-click on the top knob of the label to select it.
+* A selected label can be deleted using the "Del" key.
 * The label can be moved by holding down the left mouse button.
 * The color and size of the selected label can be adjusted in the bottom menu.
 * Clicking in an empty space cancels an area selection.
