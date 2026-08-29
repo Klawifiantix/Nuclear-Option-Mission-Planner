@@ -63,6 +63,19 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 
 ---
 
+### Labels
+* Hold down the **"d" key** and **left-click** to place a label.
+* Left-click on the top knob of the label to select it.
+* The label can be moved by holding down the left mouse button.
+* The color and size of the selected label can be adjusted in the bottom menu.
+* Clicking in an empty space cancels an area selection.
+* Left-clicking on an area selects the area.
+
+---
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/bec28d08-6fd2-46ce-8d1b-fc1409ff833d" />
+
+---
+
 # Display Options
 
 * Two display versions are available: "true" color & black/white. You can cycle through the variants using the **"m" key**.
