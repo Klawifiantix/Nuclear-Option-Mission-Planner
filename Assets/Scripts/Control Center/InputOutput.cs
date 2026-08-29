@@ -96,6 +96,17 @@ public class AreaData
 }
 
 [Serializable]
+public class LabelData
+{
+    public Vector3 position;
+    public float scaleFaktor;
+    public float colorR;
+    public float colorG;
+    public float colorB;
+    public string textContent;
+}
+
+[Serializable]
 public class CameraData
 {
     public Vector3 position;
@@ -115,6 +126,7 @@ public class SaveDataContainer
     public SortieData[] sorties;
     public ArrowData[] arrows;
     public AreaData[] areas;
+    public LabelData[] labels;
     public CameraData cameraData;
 }
 #endregion
@@ -133,6 +145,7 @@ public class InputOutput : MonoBehaviour
     private Map_Setup Map_Setup;
     private ArrowsManager ArrowsManager;
     private AreasManager AreasManager;
+    private LabelManager LabelManager;
 
     [SerializeField] bool isMissionLoaded = false;
 
@@ -168,6 +181,7 @@ public class InputOutput : MonoBehaviour
         {
             ArrowsManager = notesContainer.GetComponent<ArrowsManager>();
             AreasManager = notesContainer.GetComponent<AreasManager>();
+            LabelManager = notesContainer.GetComponent<LabelManager>();
         }
     }
 
@@ -193,7 +207,7 @@ public class InputOutput : MonoBehaviour
         }
     }
 
-    
+
 
     public void SaveData(bool Temporary)
     {
@@ -236,6 +250,7 @@ public class InputOutput : MonoBehaviour
             dataContainer.sorties = ExtractSortieData();
             dataContainer.arrows = ExtractArrowData();
             dataContainer.areas = ExtractAreaData();
+            dataContainer.labels = ExtractLabelData();
 
             if (MainCamera != null && Temporary)
             {
@@ -468,6 +483,57 @@ public class InputOutput : MonoBehaviour
         return areaDataList.ToArray();
     }
 
+    private LabelData[] ExtractLabelData()
+    {
+        if (LabelManager == null)
+        {
+            return new LabelData[0];
+        }
+
+        List<GameObject> activeLabels = LabelManager.List_ActiveLabels;
+
+        if (activeLabels == null || activeLabels.Count == 0)
+        {
+            return new LabelData[0];
+        }
+
+        List<LabelData> labelDataList = new List<LabelData>();
+
+        foreach (GameObject labelObj in activeLabels)
+        {
+            if (labelObj != null)
+            {
+                Label labelComp = labelObj.GetComponent<Label>();
+                if (labelComp != null)
+                {
+                    LabelData lData = new LabelData();
+                    lData.position = labelObj.transform.position;
+                    lData.scaleFaktor = labelComp.ScaleFaktor;
+                    lData.colorR = labelComp.COL_Unselected_R;
+                    lData.colorG = labelComp.COL_Unselected_G;
+                    lData.colorB = labelComp.COL_Unselected_B;
+                    lData.textContent = labelComp.LabelText;
+                    /*
+                    System.Reflection.FieldInfo txtField = typeof(Label).GetField("TXT_InputField", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    TMP_Text tmpText = txtField != null ? txtField.GetValue(labelComp) as TMP_Text : null;
+
+                    if (tmpText != null)
+                    {
+                        lData.textContent = tmpText.text;
+                    }
+                    else
+                    {
+                        lData.textContent = "";
+                    }
+                    */
+                    labelDataList.Add(lData);
+                }
+            }
+        }
+
+        return labelDataList.ToArray();
+    }
+
     public void LoadData(bool Temporary)
     {
         string filePath = "";
@@ -568,6 +634,11 @@ public class InputOutput : MonoBehaviour
             if (dataContainer.areas != null && AreasManager != null)
             {
                 LoadAreasData(dataContainer.areas);
+            }
+
+            if (dataContainer.labels != null && LabelManager != null)
+            {
+                LoadLabelsData(dataContainer.labels);
             }
 
             if (dataContainer.cameraData != null && MainCamera != null && Temporary)
@@ -711,8 +782,22 @@ public class InputOutput : MonoBehaviour
         }
     }
 
+    private void LoadLabelsData(LabelData[] loadedLabels)
+    {
+        foreach (LabelData lData in loadedLabels)
+        {
+            if (lData == null)
+            {
+                continue;
+            }
+
+            Color labelColor = new Color(lData.colorR, lData.colorG, lData.colorB);
+            LabelManager.CreateLoadedLabel(lData.position, lData.scaleFaktor, labelColor, lData.textContent);
+        }
+    }
+
     #region Helper Methods (Map Path & File Dialogs)
-    
+
     private int GetMapIndexFromPath(string path)
     {
         if (path == "Terrain_naval")

@@ -19,6 +19,7 @@ public class UI_Notes : MonoBehaviour
     [SerializeField] GameObject OBJ_Color_B;
     Arrow Arrow;
     Area Area;
+    Label Label;
     Color NoteUnselectedColor;
 
     private void Awake()
@@ -46,6 +47,12 @@ public class UI_Notes : MonoBehaviour
             Arrow = Notes.SelectedNote.GetComponent<Arrow>();
             Arrow.SetScaleFaktor(SLI_Width.value * 2f);
         }
+
+        if (Notes.SelectedNote.GetComponent<Label>())
+        {
+            Label = Notes.SelectedNote.GetComponent<Label>();
+            Label.SetScale(SLI_Width.value * 4f);
+        }
     }
 
     public void SetColor()
@@ -70,6 +77,12 @@ public class UI_Notes : MonoBehaviour
             Area = Notes.SelectedNote.GetComponent<Area>();
             Area.SetUnselectedColor(NoteUnselectedColor);
         }
+
+        if (Notes.SelectedNote.GetComponent<Label>())
+        {
+            Label = Notes.SelectedNote.GetComponent<Label>();
+            Label.SetUnselectedColor(NoteUnselectedColor);
+        }
     }
 
     public void DisplayArrowControls()
@@ -89,6 +102,17 @@ public class UI_Notes : MonoBehaviour
         OBJ_BackgroundArea.SetActive(true);
 
         OBJ_Width.SetActive(false);
+        OBJ_Color_R.SetActive(true);
+        OBJ_Color_G.SetActive(true);
+        OBJ_Color_B.SetActive(true);
+    }
+
+    public void DisplayLabelControls()
+    {
+        OBJ_BackgroundArrow.SetActive(true);
+        OBJ_BackgroundArea.SetActive(false);
+
+        OBJ_Width.SetActive(true);
         OBJ_Color_R.SetActive(true);
         OBJ_Color_G.SetActive(true);
         OBJ_Color_B.SetActive(true);

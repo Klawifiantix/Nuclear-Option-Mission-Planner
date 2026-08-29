@@ -23,6 +23,9 @@ public class Inputs : MonoBehaviour
 
     [Header("Areas")]
     [SerializeField] private InputActionReference Mode_Areas;
+    
+    [Header("Labels")]
+    [SerializeField] private InputActionReference Mode_Labels;
 
     [Header("Delete")]
     [SerializeField] private InputActionReference Delete;
@@ -60,10 +63,15 @@ public class Inputs : MonoBehaviour
     public bool Mode_Arrow_Down { get; private set; }
     public bool Mode_Arrow_Up { get; private set; }
 
-    //Arrows
+    //Areas
     public bool Mode_Areas_Held { get; private set; }
     public bool Mode_Areas_Down { get; private set; }
     public bool Mode_Areas_Up { get; private set; }
+
+    //Labels
+    public bool Mode_Labels_Held { get; private set; }
+    public bool Mode_Labels_Down { get; private set; }
+    public bool Mode_Labels_Up { get; private set; }
 
     //Delete
     public bool Delete_Held { get; private set; }
@@ -137,6 +145,12 @@ public class Inputs : MonoBehaviour
             Mode_Areas.action.Enable();
         }
 
+        //Labels
+        if (Mode_Labels != null)
+        {
+            Mode_Labels.action.Enable();
+        }
+
         //Delete
         if (Delete != null)
         {
@@ -193,6 +207,12 @@ public class Inputs : MonoBehaviour
         if (Mode_Areas != null)
         {
             Mode_Areas.action.Disable();
+        }
+
+        //Labels
+        if (Mode_Labels != null)
+        {
+            Mode_Labels.action.Disable();
         }
 
         //Delete
@@ -289,6 +309,18 @@ public class Inputs : MonoBehaviour
         else
         {
             Mode_Areas_Held = Mode_Areas_Down = Mode_Areas_Up = false;
+        }
+
+        //Labels
+        if (Mode_Labels != null)
+        {
+            Mode_Labels_Held = Mode_Labels.action.IsPressed();
+            Mode_Labels_Down = Mode_Labels.action.WasPressedThisFrame();
+            Mode_Labels_Up = Mode_Labels.action.WasReleasedThisFrame();
+        }
+        else
+        {
+            Mode_Labels_Held = Mode_Labels_Down = Mode_Labels_Up = false;
         }
 
         //Delete

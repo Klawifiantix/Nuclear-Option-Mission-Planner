@@ -15,10 +15,12 @@ public class SelectionBox : MonoBehaviour
     public List<GameObject> List_SelectedObjects = new List<GameObject>();
     UI_GroupInfo UI_GroupInfo;
     SelectSingleObject SelectSingleObject;
+    MouseHoverNotes MouseHoverNotes;
     private void Awake()
     {
         UI_GroupInfo = GameObject.Find("+---Canvas_GroupSelection---+").GetComponent<UI_GroupInfo>();
         SelectSingleObject = GetComponent<SelectSingleObject>();
+        MouseHoverNotes = GetComponent<MouseHoverNotes>();
     }
 
     private void Update()
@@ -27,6 +29,12 @@ public class SelectionBox : MonoBehaviour
 
         if (Mouse.current == null || Camera.main == null)
         {
+            return;
+        }
+
+        if(MouseHoverNotes.HoverNote() != null)
+        {
+            isSelecting = false;
             return;
         }
 

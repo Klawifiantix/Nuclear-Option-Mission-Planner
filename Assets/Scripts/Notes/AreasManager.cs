@@ -10,7 +10,6 @@ public class AreasManager : MonoBehaviour
     [SerializeField] GameObject AreaToDelete;
 
     public int ActualArea;
-    //public GameObject SelectedArea;
 
     Inputs Inputs;
     MouseWorldPosition MouseWorldPosition;

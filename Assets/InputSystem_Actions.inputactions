@@ -175,34 +175,6 @@
             ]
         },
         {
-            "name": "Arrows",
-            "id": "02d76c38-b8bb-4586-8f90-0930b727218b",
-            "actions": [
-                {
-                    "name": "Mode_Arrow",
-                    "type": "Button",
-                    "id": "9b7ef60c-5b89-416a-b311-372a4dbd4c0a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "07272426-cd9b-4166-9439-05cb8aa1ee86",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Mode_Arrow",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "Delete",
             "id": "efd7c208-2d2d-40a6-92d5-42fd6fd22f7b",
             "actions": [
@@ -231,13 +203,31 @@
             ]
         },
         {
-            "name": "Areas",
-            "id": "2d06257c-0b87-4b4e-ade3-998d6b8a7d32",
+            "name": "Notes",
+            "id": "382120a9-5da9-41c2-b5c9-bd7f870c95a9",
             "actions": [
+                {
+                    "name": "Mode_Arrow",
+                    "type": "Button",
+                    "id": "25367a12-8c19-4577-969c-a2651cd90fdb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
                 {
                     "name": "Mode_Area",
                     "type": "Button",
-                    "id": "f3ba5452-e1fb-42b5-869e-51e3f061a3b0",
+                    "id": "0fe65f1b-fc4d-4b3f-b41a-194d72e90fe8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Mode_Label",
+                    "type": "Button",
+                    "id": "e444d311-6959-40ec-97d8-af2d7d477966",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -247,12 +237,34 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "8fa5d7f0-c507-484a-b0e0-cf32271185b1",
+                    "id": "34c5e6be-ab9b-4cd7-bf4a-a69dfe96f531",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode_Arrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d9c223a-71d7-4125-abd7-dfb7064517bf",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Mode_Area",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98829ea9-b0e5-4173-9b61-89143997d343",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode_Label",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

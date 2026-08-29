@@ -15,7 +15,7 @@ public class Notes : MonoBehaviour
 
     ArrowsManager ArrowsManager;
     AreasManager AreasManager;
-
+    LabelManager LabelManager;
 
     private void Awake()
     {
@@ -23,6 +23,7 @@ public class Notes : MonoBehaviour
         MouseHoverNotes = GameObject.Find("+---Control Center---+").GetComponent<MouseHoverNotes>();
         ArrowsManager = GetComponent<ArrowsManager>();
         AreasManager = GetComponent<AreasManager>();
+        LabelManager = GetComponent<LabelManager>();
     }
     private void Update()
     {
@@ -43,6 +44,10 @@ public class Notes : MonoBehaviour
             {
                 UI_Notes.DisplayAreaControls();
             }
+            if (SelectedNote.GetComponent<Label>())
+            {
+                UI_Notes.DisplayLabelControls();
+            }
         }
         else
         {
@@ -54,7 +59,7 @@ public class Notes : MonoBehaviour
     {
         //Ohne Arrow Mode
         //Abwählen eines ausgewählten objekts
-        if (!Inputs.Mode_Arrow_Held && !Inputs.Mode_Areas_Held && Inputs.Select_Down)
+        if (!Inputs.Mode_Arrow_Held && !Inputs.Mode_Areas_Held && !Inputs.Mode_Labels_Held && Inputs.Select_Down)
         {
             HoverNote = MouseHoverNotes.HoverNote();
 
@@ -70,6 +75,10 @@ public class Notes : MonoBehaviour
                     {
                         SelectedNote.GetComponent<Area>().UnselectArea();
                     }
+                    if (SelectedNote.GetComponent<Label>())
+                    {
+                        SelectedNote.GetComponent<Label>().UnselectLabel();
+                    }
                 }
 
                 if(HoverNote.GetComponent<Arrow>())
@@ -84,6 +93,13 @@ public class Notes : MonoBehaviour
                     SelectedNote = HoverNote;
                     SelectedNote.GetComponent<Area>().SelectArea();
                     AreasManager.ActualArea = AreasManager.List_ActiveAreas.IndexOf(SelectedNote);
+                }
+
+                if (HoverNote.GetComponent<Label>())
+                {
+                    SelectedNote = HoverNote;
+                    SelectedNote.GetComponent<Label>().SelectLabel();
+                    LabelManager.ActualLabel = LabelManager.List_ActiveLabels.IndexOf(SelectedNote);
                 }
             }
             else//Wenn  nicht über einer Note gehovert wird.
@@ -113,6 +129,11 @@ public class Notes : MonoBehaviour
                                 SelectedNote.GetComponent<Area>().UnselectArea();
                                 AreasManager.ActualArea = AreasManager.List_ActiveAreas.Count;
                             }
+                            if (SelectedNote.GetComponent<Label>())
+                            {
+                                SelectedNote.GetComponent<Label>().UnselectLabel();
+                                LabelManager.ActualLabel = LabelManager.List_ActiveLabels.Count;
+                            }
                         }
 
                         SelectedNote = null;
@@ -131,6 +152,11 @@ public class Notes : MonoBehaviour
                         {
                             SelectedNote.GetComponent<Area>().UnselectArea();
                             AreasManager.ActualArea = AreasManager.List_ActiveAreas.Count;
+                        }
+                        if (SelectedNote.GetComponent<Label>())
+                        {
+                            SelectedNote.GetComponent<Label>().UnselectLabel();
+                            LabelManager.ActualLabel = LabelManager.List_ActiveLabels.Count;
                         }
                     }
 
