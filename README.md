@@ -70,7 +70,6 @@ In addition, sorties can be planned using placed waypoints. Sorties can also be 
 * The label can be moved by holding down the left mouse button.
 * The color and size of the selected label can be adjusted in the bottom menu.
 * Clicking in an empty space cancels an label selection.
-* Left-clicking on a label selects the label.
 
 ---
 <img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/bec28d08-6fd2-46ce-8d1b-fc1409ff833d" />
